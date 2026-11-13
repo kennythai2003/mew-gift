@@ -296,6 +296,22 @@ input[type=range]::-moz-range-thumb{width:16px; height:16px; border-radius:50%; 
 .book.compact .special .sg{font-size:calc(var(--pw)*.034)}
 .book.compact .special .eb{font-size:calc(var(--pw)*.022)}
 .book.compact .folio{font-size:10px}
+@media (max-height:560px) and (min-width:560px){
+  header.bar{padding:6px 16px}
+  .brand .eyebrow{display:none}
+  .brand h1{font-size:16px; margin:0}
+  .hbtns .btn{height:32px; padding:0 12px; font-size:12px}
+  .btn .txt-long{display:none}
+  .controls{padding:4px 10px 8px; gap:8px; flex-wrap:nowrap}
+  .controls .btn{height:36px}
+  #prev .wide-only-txt, #next span{display:none}
+  #prev, #next{width:36px; padding:0; justify-content:center}
+  .scrub{height:38px; padding:4px 6px 4px 14px; flex:1 1 auto; min-width:0}
+  .scrub .lbl{min-width:0; font-size:12px}
+  input[type=range]{width:auto; flex:1; min-width:60px}
+  .jump .jl{display:none}
+  .jump input{width:46px; height:28px} .jump button{height:28px}
+}
 @media (prefers-reduced-motion:reduce){ *{animation-duration:.01ms!important} }
 </style>
 </head>
@@ -619,10 +635,11 @@ input[type=range]::-moz-range-thumb{width:16px; height:16px; border-radius:50%; 
 
   function layout(){
     const wasSingle = single;
-    single = innerWidth < 820 || innerWidth < innerHeight * 1.05;
+    const short = innerHeight < 560;
+    single = innerWidth < 820 || innerWidth < innerHeight * 1.05 || short;
     book.classList.toggle('single', single);
     const st = $('stage').getBoundingClientRect();
-    const availW = st.width - (single ? 30 : 70), availH = st.height - 40;
+    const availW = st.width - (single ? 30 : 70), availH = st.height - (short ? 22 : 40);
     let pw = single ? Math.min(availW, availH * ASPECT) : Math.min(availW / 2, availH * ASPECT);
     pw = Math.max(200, Math.floor(pw));
     book.classList.toggle('compact', pw < 520);
